@@ -1,0 +1,49 @@
+const
+  rnaMax=10000;
+  cRNK=['AUGC']; cProt=['A','C'..'I','K'..'N','P'..'T','V','W','Y']; cEmpty=[#10,#13,' ','-'];
+  msgEnter='Введите последовательность ';
+  msgTooLong='Слишком длинная последовательность ';
+  msgInvalid='Недопустимый символ в описании ';
+var
+  rna: array [0..rnaMax-1] of Char;
+  line: array [0..rnaMax-1] of Integer;
+  prot: array [0..499] of Char;
+  rnaCnt, lineCnt, protCnt: Integer;
+  t: Char;
+begin
+  WriteLn(msgEnter,'РНК:');
+  line[0]:=1; lineCnt:=1; {rnaCnt:=0;}
+  Read(t);
+  while t<>'.' do begin
+    t:=UpCase(t);
+    if not (t in cRNK+cEmpty) then begin
+      WriteLn(msgInvalid,'РНК'); Exit;
+    end;
+    if t in cRNK then begin
+      if rnaCnt>High(rna) then begin
+        WriteLn(msgTooLong,'РНК'); Exit;
+      end;
+      rna[rnaCnt]:=t; Inc(rnaCnt);
+    end else if t=#10 then begin
+      line[lineCnt]:=rnaCnt; Inc(lineCnt);
+    end;
+    Read(t);
+  end;
+  line[lineCnt]:=rnaCnt; Inc(lineCnt);
+ 
+  WriteLn(msgEnter,'белка:');
+  {protCnt:=0;}
+  Read(t);
+  while t<>'.' do begin
+    t:=UpCase(t);
+    if not (t in cProt+cEmpty) then begin
+      WriteLn(msgInvalid,'белка'); Exit;
+    end;
+    if t in cProt then begin
+      if protCnt>High(prot) then begin
+        WriteLn(msgTooLong,'белка'); Exit;
+      end;
+      prot[protCnt]:=t; Inc(protCnt);
+    end;
+    Read(t);
+  end;
